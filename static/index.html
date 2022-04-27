@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="/css/layout.css">
+</head>
+
+<body>
+
+  <h1>CS498 FINAL PROJECT TEAM BOURBON</h1>
+
+  <div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'Home')" id="defaultOpen">Home</button>
+    <button class="tablinks" onclick="openTab(event, 'Q1')">Q1</button>
+    <button class="tablinks" onclick="openTab(event, 'Q2')">Q2</button>
+    <button class="tablinks" onclick="openTab(event, 'Q3')">Q3</button>
+    <button class="tablinks" onclick="openTab(event, 'Q4')">Q4</button>
+    <button class="tablinks" onclick="openTab(event, 'Q5')">Q5</button>
+    <button class="tablinks" onclick="openTab(event, 'Q6')">Q6</button>
+  </div>
+
+  <div id="Home" class="tabcontent">
+    <h3>Home</h3>
+    <p>Member: CHIA-CHI CHEN (chiachi5), SHENG-YU LIN (sylin5)</p>
+    <p>Dataset: Twitter</p>
+    <p>Database: Redis</p>
+    <p>Data Mode: Graph (Key-Value)</p>
+  </div>
+
+  <div id="Q1" class="tabcontent">
+    <h3>Question 1</h3>
+    <p>(Path finding) Display the thread (replies) of tweets (the tweet, time, id, in reply to id, user name with screen name) posted by the user with screen_name “blcklcfr” in the order in which they were posted.</p>
+    <input class="inputbox" type="text" id="q1_screen_name" value="Eurovision">
+    <button class="button" onclick="q1()">Query</button>
+
+    <div>
+      <table id="q1Table" class="datacontent table" style="width: 90%;">
+      </table>
+    </div>
+  </div>
+
+  <div id="Q2" class="tabcontent">
+    <h3>Question 2</h3>
+    <p>From which country have the tweets been most actively posted (most number of tweets)?</p>
+    <input class="inputbox" type="datetime-local" id="q2_start_date">
+    <input class="inputbox" type="datetime-local" id="q2_end_date">
+    <button class="button" onclick="q2()">Query</button>
+
+    <div id="q2Chart" class="datacontent chartContainer"></div>
+
+    <br>
+    <br>
+    <br>
+
+    <div>
+      <table id="q2Table" class="datacontent table">
+        <tr>
+          <th>Rank</th>
+          <th>Country</th>
+          <th>Count</th>
+        </tr>
+      </table>
+    </div>
+
+    <!-- <div style="width: 90%; position: relative; margin-left: 5%;">
+
+      <div style="float:left; width:30%; display: inline-block;">
+        <table id="q2Table" class="datacontent table">
+          <tr>
+            <th>Rank</th>
+            <th>Country</th>
+            <th>Count</th>
+          </tr>
+        </table>
+      </div>
+
+      <div style="float:left; width:70%; display: inline-block;">
+        <div id="q2Chart" class="datacontent chartContainer"></div>
+      </div>
+
+    </div> -->
+
+  </div>
+
+  <div id="Q3" class="tabcontent">
+    <h3>Question 3</h3>
+    <p>Which user has posted the most tweets?</p>
+    <input class="inputbox" type="datetime-local" id="q3_start_date">
+    <input class="inputbox" type="datetime-local" id="q3_end_date">
+    <button class="button" onclick="q3()">Query</button>
+
+    <div id="q3Chart" class="datacontent chartContainer"></div>
+
+    <br>
+    <br>
+    <br>
+
+    <div>
+      <table id="q3Table" class="datacontent table">
+        <tr>
+          <th>Rank</th>
+          <th>UID</th>
+          <th>Screen Name</th>
+          <th>Count</th>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div id="Q4" class="tabcontent">
+    <h3>Question 4</h3>
+    <p>(Trending) How many tweets are associated with each hashtag? (For a tweet with multiple hashtags, count it for each.) Give the hashtag and count for the top 100 counts.</p>
+    <label for="q4_start_date">Start Date:</label>
+    <input class="inputbox" type="datetime-local" id="q4_start_date">
+    <label for="q4_end_date">End Date:</label>
+    <input class="inputbox" type="datetime-local" id="q4_end_date">
+    <label for="q4_aggregation">Aggregation:</label>
+    <select class="inputbox" id="q4_aggregation" required>
+      <option value="" disabled selected hidden>Select your option</option>
+      <option value="day">Day</option>
+      <option value="week">Week</option>
+      <option value="month">Month</option>
+    </select>
+    <button class="button" onclick="q4()">Query</button>
+
+    <div id="q4Chart" class="datacontent chartContainer"></div>
+
+    <br>
+    <br>
+    <br>
+
+    <div>
+      <table id="q4Table" class="datacontent table">
+        <tr>
+          <th>Rank</th>
+          <th>Hashtag</th>
+          <th>Count</th>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div id="Q5" class="tabcontent">
+    <h3>Question 5</h3>
+    <p>Are there any three users A, B, C such that: User A has replied to a tweet of User B and B has replied to a tweet of User A, and similarly for A & C and B&C? Display each trio with the names and screen names of the three users.</p>
+    <button class="button" onclick="q5()">Query</button>
+  </div>
+
+  <div id="Q6" class="tabcontent">
+    <h3>Question 6</h3>
+    <p>(Nature of engagement) For each verified user, what is the percentage of different types of tweets (simple tweet, reply, retweet, quoted tweet) compared to his or her overall number of tweets?</p>
+    <button class="button" onclick="q6()">Query</button>
+
+    <div>
+      <table id="q6Table" class="datacontent table">
+        <tr>
+          <th>Screen Name</th>
+          <th>UID</th>
+          <th>Simple Tweet</th>
+          <th>Reply</th>
+          <th>Retweet</th>
+          <th>Quoted Retweet</th>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function openTab(evt, tabName) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      datacontent = document.getElementsByClassName("datacontent");
+      for (i = 0; i < datacontent.length; i++) {
+        datacontent[i].style.display = "none";
+      }
+      document.getElementById(tabName).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+  </script>
+  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+  <script src="/js/api.js"></script>
+</body>
+</html> 
