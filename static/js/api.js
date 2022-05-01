@@ -5,7 +5,7 @@ function q1() {
 
   var screen_name = document.getElementById("q1_screen_name").value;
   var url = "/q1?screen_name=" + screen_name;
-  
+
   fetch(url).then(function(response) {
     return response.json();
   }).then(function(data) {
@@ -311,13 +311,47 @@ function q4() {
   });
 }
 
+function q5() {
+  var table = document.getElementById("q5Table");
+  table.style.display = "none";
+  table.innerHTML = "<tr><th>Screen Name 1</th><th>UID 1</th><th>Screen Name 2</th><th>UID 2</th><th>Screen Name 3</th><th>UID 3</th></tr>";
+
+  var url = "/q5"
+
+  fetch(url).then(function(response) {
+    return response.json();
+  }).then(function(data) {
+    table.style.display = "table";
+
+    data.forEach(function (item, index) {
+      var row = table.insertRow(-1);
+      var c1 = row.insertCell(0);
+      var c2 = row.insertCell(1);
+      var c3 = row.insertCell(2);
+      var c4 = row.insertCell(3);
+      var c5 = row.insertCell(4);
+      var c6 = row.insertCell(5);
+
+      c1.innerHTML = item[0][1];
+      c2.innerHTML = item[0][0];
+      c3.innerHTML = item[1][1];
+      c4.innerHTML = item[1][0];
+      c5.innerHTML = item[2][1];
+      c6.innerHTML = item[2][0];
+    });
+
+  }).catch(function() {
+    console.log("API failed");
+  });
+}
+
 function q6() {
   var table = document.getElementById("q6Table");
   table.style.display = "none";
   table.innerHTML = "<tr><th>Screen Name</th><th>UID</th><th>Simple Tweet</th><th>Reply</th><th>Retweet</th><th>Quoted Retweet</th></tr>";
 
   var url = "/q6"
-  
+
   fetch(url).then(function(response) {
     return response.json();
   }).then(function(data) {
