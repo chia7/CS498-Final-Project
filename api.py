@@ -203,14 +203,11 @@ def question4():
 @app.route('/q5', methods=['GET'])
 def question5():
 
-    query = """MATCH (a:User)-[:Post]->(:Tweet {type:'reply'})-[:Reply]->(:Tweet)<-[:Post]-(b:User) \
-               MATCH (a)-[:Post]->(:Tweet {type:'reply'})-[:Reply]->(:Tweet)<-[:Post]-(c:User) \
-               MATCH (b)-[:Post]->(:Tweet {type:'reply'})-[:Reply]->(:Tweet)<-[:Post]-(a) \
-               MATCH (b)-[:Post]->(:Tweet {type:'reply'})-[:Reply]->(:Tweet)<-[:Post]-(c) \
-               MATCH (c)-[:Post]->(:Tweet {type:'reply'})-[:Reply]->(:Tweet)<-[:Post]-(a) \
-               MATCH (c)-[:Post]->(:Tweet {type:'reply'})-[:Reply]->(:Tweet)<-[:Post]-(b) \
+    query = """MATCH (a:User)-[:Post]->(:Tweet)-[:Reply]->(:Tweet)<-[:Post]-(b:User)-[:Post]->(:Tweet)<-[:Reply]-(:Tweet)<-[:Post]-(c:User) \
+               MATCH (b)-[:Post]->(:Tweet)-[:Reply]->(:Tweet)<-[:Post]-(a)-[:Post]->(:Tweet)<-[:Reply]-(:Tweet)<-[:Post]-(c) \
+               MATCH (a)-[:Post]->(:Tweet)-[:Reply]->(:Tweet)<-[:Post]-(c)-[:Post]->(:Tweet)<-[:Reply]-(:Tweet)<-[:Post]-(b) \
                WHERE a.id < b.id AND b.id < c.id \
-               RETURN a.id, a.screen_name, b.id, b.screen_name, c.id, c.screen_name"""
+               RETURN DISTINCT a.id, a.screen_name, b.id, b.screen_name, c.id, c.screen_name"""
 
     results = exec(r, query)[1]
 

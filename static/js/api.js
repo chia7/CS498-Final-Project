@@ -314,7 +314,7 @@ function q4() {
 function q5() {
   var table = document.getElementById("q5Table");
   table.style.display = "none";
-  table.innerHTML = "<tr><th>Screen Name 1</th><th>UID 1</th><th>Screen Name 2</th><th>UID 2</th><th>Screen Name 3</th><th>UID 3</th></tr>";
+  table.innerHTML = "<tr><th>Screen Name A</th><th>UID A</th><th>Screen Name B</th><th>UID B</th><th>Screen Name C</th><th>UID C</th></tr>";
 
   var url = "/q5"
 
