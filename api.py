@@ -51,7 +51,8 @@ def question1():
     if params['screen_name'] is None:
         return jsonify(error="parameter `screen_name` not found")
 
-    query = """MATCH (a:User {screen_name: $screen_name})-[:Post]->(t_a:Tweet {type:'tweet'})<-[:Reply]-(t_b:Tweet {type:'reply'})<-[:Post]-(b:User) \
+    query = """MATCH (a:User {screen_name: $screen_name})-[:Post]->(t_a:Tweet {type:'tweet'}) \
+               OPTIONAL MATCH (t_a)<-[:Reply]-(t_b:Tweet {type:'reply'})<-[:Post]-(b:User) \
                RETURN a.id, a.screen_name, t_a.id, t_a.text, t_a.timestamp, b.id, b.screen_name, t_b.id, t_b.text, t_b.timestamp \
                ORDER BY t_a.timestamp DESC, t_b.timestamp DESC"""
 
@@ -72,10 +73,12 @@ def question1():
         tb_text = result[8][1]
         tb_ts = result[9][1]
 
-        if len(resp) > 0 and resp[-1][2] == ta_id:
+        if len(resp) > 0 and resp[-1][2] == ta_id and tb_id is not None:
             resp[-1][5].append([b_id, b_screen_name, tb_id, tb_text, tb_ts])
         else:
-            resp.append([a_id, a_screen_name, ta_id, ta_text, ta_ts, [[b_id, b_screen_name, tb_id, tb_text, tb_ts]]])
+            resp.append([a_id, a_screen_name, ta_id, ta_text, ta_ts, []])
+            if tb_id is not None:
+                resp[-1][5].append([b_id, b_screen_name, tb_id, tb_text, tb_ts])
 
     return jsonify(resp)
 
